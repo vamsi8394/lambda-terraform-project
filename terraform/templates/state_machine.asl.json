@@ -1,4 +1,4 @@
-{
+ {
     "Comment": "Contract Analysis Workflow - Extract, Classify, Analyze with Nova Pro",
     "StartAt": "ExtractAndAnalyze",
     "States": {

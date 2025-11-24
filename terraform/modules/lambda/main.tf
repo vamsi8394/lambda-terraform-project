@@ -24,6 +24,8 @@ resource "aws_lambda_function" "this" {
     variables = var.environment_variables
   }
 
+  layers = var.layers
+
   reserved_concurrent_executions = var.reserved_concurrent_executions
 
   tags = var.tags

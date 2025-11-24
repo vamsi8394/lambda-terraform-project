@@ -115,6 +115,16 @@ module "webhook_api_gateway" {
   }
 }
 
+# Lambda Layer for Extract Text Dependencies
+module "extract_text_layer" {
+  source = "../../modules/lambda-layer"
+
+  layer_name          = "tech-extracttext-dependencies-${var.environment}"
+  description         = "Python dependencies for text extraction (PyPDF2, docx2txt, boto3)"
+  compatible_runtimes = ["python3.13"]
+  layer_zip_path      = "${path.module}/../../../layers/python-dependencies.zip"
+}
+
 # Extract Text Lambda
 module "extract_text_lambda" {
   source = "../../modules/lambda"
@@ -129,6 +139,9 @@ module "extract_text_lambda" {
   source_dir              = "${local.lambda_source_dir}/tech-extracttextlambda"
   handler                 = "lambda_function.lambda_handler"
   log_retention_days      = var.extracttext_lambda_log_retention
+
+  # Attach the Lambda layer
+  layers = [module.extract_text_layer.layer_arn]
 
   environment_variables = {
     S3_BUCKET_NAME = module.s3.main_bucket_name

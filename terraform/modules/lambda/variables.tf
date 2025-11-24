@@ -83,6 +83,12 @@ variable "reserved_concurrent_executions" {
   default     = -1
 }
 
+variable "layers" {
+  description = "List of Lambda layer ARNs to attach to the function"
+  type        = list(string)
+  default     = []
+}
+
 variable "tags" {
   description = "Tags to apply to resources"
   type        = map(string)
